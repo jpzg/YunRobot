@@ -7,6 +7,10 @@
 Servo rightmotor;
 Servo leftmotor;
 String msg;
+String cmd;
+String arg;
+char * s;
+int index;
 
 void setup() {
   // Start bridge,start mailbox, attach motors
@@ -20,8 +24,15 @@ void setup() {
 void loop() {
   if(Mailbox.messageAvailable() != 0){
     Mailbox.readMessage(msg,Mailbox.messageAvailable());
+    index = msg.indexOf(':');
+    cmd = msg.substring(0,index-1);
+    arg = msg.substring(index+1);
+    arg.toCharArray(s,5);
+    if(cmd == "lm"){
+      leftmotor.write(atoi(s));
+    }
+    if(cmd == "rm"){
+      rightmotor.write(atoi(s));
+    }
   }
-  //if(msg.readStringUntil(':') == 'lm'){
-    //leftmotor.write(int(msg.readString
-  //}
 }
