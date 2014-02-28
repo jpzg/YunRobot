@@ -10,7 +10,10 @@ String msg;
 String cmd;
 String arg;
 char * s;
+char * s2;
+char * s3;
 int index;
+int index2;
 
 void setup() {
   // Start bridge,start mailbox, attach motors
@@ -25,6 +28,7 @@ void loop() {
   if(Mailbox.messageAvailable() != 0){
     Mailbox.readMessage(msg,Mailbox.messageAvailable());
     index = msg.indexOf(':');
+    index = msg.indexOf('>');
     cmd = msg.substring(0,index-1);
     arg = msg.substring(index+1);
     arg.toCharArray(s,5);
@@ -33,6 +37,13 @@ void loop() {
     }
     if(cmd == "rm"){
       rightmotor.write(atoi(s));
+    }
+    if(index2){
+      msg.substring(index+1,index2-1).toCharArray(s2,3);
+      msg.substring(index2+1).toCharArray(s3,3);
+      if(cmd == "pin"){
+          digitalWrite(atoi(s2),atoi(s3));
+      }
     }
   }
 }
