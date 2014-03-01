@@ -14,7 +14,7 @@ namespace WindowsControlApp
 {
     public partial class Form1 : Form
     {
-        public Socket socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
+        public Socket socket;
         private int lm = 90;
         private int rm = 90;
 
@@ -95,18 +95,18 @@ namespace WindowsControlApp
         private void button1_Click(object sender, EventArgs e)
         {
             label1.Text = "Connecting";
-            //socket.Connect("arduino.local", 3146);
-            //if (socket.Connected)
-            //{
+            socket.Connect("arduino.local", 3146);
+            if (socket.Connected)
+            {
                 label1.Text = "Connected to Yun";
                 button1.Enabled = false;
                 timer1.Enabled = true;
                 KeyEvtProvider.Enabled = true;
-            //}
-            //else
-            //{
-            //    label1.Text = "Could not connect to Yun";
-            //}
+            }
+            else
+            {
+                label1.Text = "Could not connect to Yun";
+            }
         }
     }
 }
