@@ -37,16 +37,20 @@ void loop() {
     cmd = msg.substring(0,index);
     msg.substring(index+1).toCharArray(s,5);
     if(cmd == "lm"){
+      Serial.print("Changing left motor speed: ");
+      Serial.println(s);
       leftmotor.write(atoi(s));
     }
     if(cmd == "rm"){
+      Serial.print("Changing right motor speed: ");
+      Serial.println(s);
       rightmotor.write(atoi(s));
     }
     if(index2){
       msg.substring(index+1,index2).toCharArray(s2,5);
       msg.substring(index2+1).toCharArray(s3,3);
       if(cmd == "pin"){
-        Serial.println("Changing pin. Pin #:");
+        Serial.print("Changing pin. Pin #:");
         Serial.println(s2);
         digitalWrite(atoi(s2),atoi(s3));
       }
