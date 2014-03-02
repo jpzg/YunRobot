@@ -8,12 +8,12 @@ Servo rightmotor;
 Servo leftmotor;
 String msg;
 String cmd;
-char * s;
-char * s2;
-char * s3;
+char s[3];
+char s2[3];
+char s3[1];
 int index;
 int index2;
-char buf[15];
+char buf[20];
 
 void setup() {
   // Start bridge,start mailbox, attach motors
@@ -31,9 +31,10 @@ void loop() {
     Serial.readBytesUntil('\n',buf,20);
     msg = String(buf);
     Serial.println("Echo:"+msg);
+    Serial.println(buf);
     index = msg.indexOf(':');
-    index = msg.indexOf('>');
-    cmd = msg.substring(0,index-1);
+    index2 = msg.indexOf('>');
+    cmd = msg.substring(0,index);
     msg.substring(index+1).toCharArray(s,5);
     if(cmd == "lm"){
       leftmotor.write(atoi(s));
@@ -42,12 +43,14 @@ void loop() {
       rightmotor.write(atoi(s));
     }
     if(index2){
-      msg.substring(index+1,index2-1).toCharArray(s2,3);
+      msg.substring(index+1,index2).toCharArray(s2,5);
       msg.substring(index2+1).toCharArray(s3,3);
       if(cmd == "pin"){
-          digitalWrite(atoi(s2),atoi(s3));
-          Serial.println("Changed pin");
+        Serial.println("Changing pin. Pin #:");
+        Serial.println(s2);
+        digitalWrite(atoi(s2),atoi(s3));
       }
     }
+    for(int i = 0;i < 20;i += 1){ buf[i] = ' '; }
   }
 }
