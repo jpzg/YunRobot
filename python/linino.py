@@ -5,7 +5,7 @@ mailbox = imp.load_source('bridge','/usr/lib/python2.7/bridge/mailbox.py')
 #test.greeting();
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(('localhost', 5005))
+s.bind(('localhost', 3146))
 s.listen(1);
 
 while True:
