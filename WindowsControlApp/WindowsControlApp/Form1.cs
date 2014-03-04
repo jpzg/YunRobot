@@ -14,9 +14,10 @@ namespace WindowsControlApp
 {
     public partial class Form1 : Form
     {
-        public Socket socket;
+        public Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         private int lm = 90;
         private int rm = 90;
+        private byte[] values = new byte[30];
 
         public Form1()
         {
@@ -35,6 +36,9 @@ namespace WindowsControlApp
             if (rm > 180) { rm = 180; }
             label2.Text = String.Format("left motor: {0}", lm);
             label3.Text = String.Format("right motor: {0}", rm);
+            values[0] = Convert.ToByte(lm);
+            values[1] = Convert.ToByte(rm);
+            socket.Send(values);
         }
 
         void KeyEvtProvider_KeyUp(object sender, KeyEventArgs e)
@@ -95,7 +99,15 @@ namespace WindowsControlApp
         private void button1_Click(object sender, EventArgs e)
         {
             label1.Text = "Connecting";
-            socket.Connect("arduino.local", 3146);
+            try
+            {
+                socket.Connect("192.168.2.120", 3146);
+            }
+            catch (Exception ex)
+            {
+                textBox1.AppendText(ex.Message);
+                textBox1.ScrollToCaret();
+            }
             if (socket.Connected)
             {
                 label1.Text = "Connected to Yun";
@@ -107,6 +119,11 @@ namespace WindowsControlApp
             {
                 label1.Text = "Could not connect to Yun";
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

@@ -26,10 +26,10 @@ void setup() {
 }
 
 void loop() {
-  if(Serial.available()){//Mailbox.messageAvailable() != 0){
-    //Mailbox.readMessage(msg,Mailbox.messageAvailable());
-    Serial.readBytesUntil('\n',buf,20);
-    msg = String(buf);
+  if(Mailbox.messageAvailable() != 0){
+    Mailbox.readMessage(msg,Mailbox.messageAvailable());
+    //Serial.readBytesUntil('\n',buf,20);
+    //msg = String(buf);
     Serial.println("Echo:"+msg);
     Serial.println(buf);
     index = msg.indexOf(':');
