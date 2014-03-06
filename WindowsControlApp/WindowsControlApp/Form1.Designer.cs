@@ -28,11 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.KeyEvtProvider = new MouseKeyboardActivityMonitor.Controls.MouseKeyEventProvider();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -123,7 +121,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label1;
         private MouseKeyboardActivityMonitor.Controls.MouseKeyEventProvider KeyEvtProvider;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBox1;
