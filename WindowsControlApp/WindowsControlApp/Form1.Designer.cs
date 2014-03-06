@@ -28,24 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.components = new System.ComponentModel.Container();
+            this.connect_button = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.KeyEvtProvider = new MouseKeyboardActivityMonitor.Controls.MouseKeyEventProvider();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.led_button = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
-            // button1
+            // connect_button
             // 
-            this.button1.Location = new System.Drawing.Point(12, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Connect";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.connect_button.Location = new System.Drawing.Point(12, 12);
+            this.connect_button.Name = "connect_button";
+            this.connect_button.Size = new System.Drawing.Size(75, 23);
+            this.connect_button.TabIndex = 0;
+            this.connect_button.Text = "Connect";
+            this.connect_button.UseVisualStyleBackColor = true;
+            this.connect_button.Click += new System.EventHandler(this.button1_Click);
             // 
             // label1
             // 
@@ -66,18 +68,18 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(13, 55);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.Size = new System.Drawing.Size(36, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "label2";
+            this.label2.Text = "motor:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 68);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
+            this.label3.Size = new System.Drawing.Size(36, 13);
             this.label3.TabIndex = 3;
-            this.label3.Text = "label3";
+            this.label3.Text = "servo:";
             // 
             // textBox1
             // 
@@ -87,28 +89,28 @@
             this.textBox1.Size = new System.Drawing.Size(260, 165);
             this.textBox1.TabIndex = 4;
             // 
-            // button2
+            // led_button
             // 
-            this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(93, 12);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "LED";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.led_button.Enabled = false;
+            this.led_button.Location = new System.Drawing.Point(93, 12);
+            this.led_button.Name = "led_button";
+            this.led_button.Size = new System.Drawing.Size(75, 23);
+            this.led_button.TabIndex = 5;
+            this.led_button.Text = "LED";
+            this.led_button.UseVisualStyleBackColor = true;
+            this.led_button.Click += new System.EventHandler(this.led_button_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.led_button);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.connect_button);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
@@ -118,13 +120,14 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button connect_button;
         private System.Windows.Forms.Label label1;
         private MouseKeyboardActivityMonitor.Controls.MouseKeyEventProvider KeyEvtProvider;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button led_button;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
