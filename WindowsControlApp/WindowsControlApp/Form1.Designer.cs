@@ -47,7 +47,7 @@
             this.connect_button.TabIndex = 0;
             this.connect_button.Text = "Connect";
             this.connect_button.UseVisualStyleBackColor = true;
-            this.connect_button.Click += new System.EventHandler(this.button1_Click);
+            this.connect_button.Click += new System.EventHandler(this.connect_button_Click);
             // 
             // label1
             // 
@@ -86,6 +86,7 @@
             this.textBox1.Location = new System.Drawing.Point(12, 84);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(260, 165);
             this.textBox1.TabIndex = 4;
             // 

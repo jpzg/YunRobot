@@ -14,14 +14,21 @@ namespace WindowsControlApp
         public Robot(string ip,int port)
         {
             System.Net.IPAddress.Parse(ip);
-            ip = this.ip;
-            port = this.port;
+            this.ip = ip;
+            this.port = port;
         }
 
-        public bool Connect()
+        public Tuple<bool,Exception> Connect()
         {
-            socket.Connect(ip, port);
-            return socket.Connected;
+            try
+            {
+                socket.Connect(ip, port);
+            }
+            catch (Exception e)
+            {
+                return Tuple.Create<bool,Exception>(false,e);
+            }
+            return Tuple.Create<bool,Exception>(socket.Connected,null);
         }
 
         public void setSpeed(int speed)
