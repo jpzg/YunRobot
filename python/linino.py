@@ -16,6 +16,6 @@ while True:
 		except Exception:
 			break
 		if not data: break
-		# Parse command here or maybe just use 'exec' to run it if the app sends complete, valid lines of code instead of 'command:pin:value' or something.
+		exec data
 	conn.close()
 	print "Connection closed"
