@@ -1,17 +1,26 @@
 import socket
-import imp
-mailbox = imp.load_source('bridge','/usr/lib/python2.7/bridge/mailbox.py')
-#test = imp.load_source('test','moduletest.py')
-#test.greeting();
+from pyfirmata import Arduino, util
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(('localhost', 3146))
+s.bind(('192.168.1.9', 3146))
 s.listen(1);
+
+board = Arduino('/dev/ttyATH0', baudrate=57600)
 
 while True:
 	conn, addr = s.accept()
+	print "Connection accepted",addr
 	while True:
-		data = conn.recv(64)
+		try:
+			data = conn.recv(64)
+		except Exception:
+			break
 		if not data: break
-		mailbox.send(data)
+		try:
+			exec data
+			print "Executed command : " + data + " from " + addr[0]
+		except:
+			print "Error while running command from " + addr[0]
+			print "Command: " + data
 	conn.close()
+	print "Connection closed"
