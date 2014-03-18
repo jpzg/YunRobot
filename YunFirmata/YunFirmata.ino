@@ -594,7 +594,7 @@ void setup()
   Firmata.attach(START_SYSEX, sysexCallback);
   Firmata.attach(SYSTEM_RESET, systemResetCallback);
 
-  Serial1.begin(57600);
+  Serial1.begin(115200);
   Firmata.begin(Serial1);
   systemResetCallback();  // reset to default config
 }
