@@ -8,8 +8,6 @@ namespace WindowsControlApp
         private Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         public string ip;
         public int port;
-        public int speed;
-        public int servo;
 
         public Robot(string ip,int port)
         {
@@ -31,29 +29,33 @@ namespace WindowsControlApp
             return Tuple.Create<bool,Exception>(socket.Connected,null);
         }
 
-        public void setSpeed(int speed)
+        public void digitalWrite(int pin, int value)
         {
-            this.speed = speed;
-            socket.Send(toByteArray("motor:" + speed.ToString()));
+            socket.Send(toByteArray(String.Format("board.digital[{0}].write({1})",pin,value)));
         }
 
-        public void steer(int position)
+        public int digitalRead(int pin)
         {
-            this.servo = position;
-            socket.Send(toByteArray("servo:" + position.ToString()));
-        }
-
-        public void setPin(int pin, bool value)
-        {
-            socket.Send(toByteArray(String.Format("wpin:{0}>{1}", pin, Convert.ToByte(value))));
-        }
-
-        public bool getPin(int pin)
-        {
-            byte[] buffer = new byte[3];
-            socket.Send(toByteArray("rpin:" + pin));
+            byte[] buffer = new byte[10];
+            socket.Send(toByteArray(String.Format("board.digital[{0}].read()")));
             socket.Receive(buffer);
-            return Convert.ToBoolean(buffer[0]);
+            return Convert.ToInt32(toString(buffer));
+        }
+
+        public void analogWrite(int pin, int value)
+        {
+            socket.Send(toByteArray(String.Format("board.analog[{0}].write({1})", pin, value)));
+        }
+
+        public int analogRead(int pin)
+        {
+            socket.Send(toByteArray(String.Format("board.analog[{0}].read()", pin)));
+
+        }
+
+        public void sendCommand(string cmd)
+        {
+            socket.Send(toByteArray(cmd));
         }
 
         public static byte[] toByteArray(string s)
