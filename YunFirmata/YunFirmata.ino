@@ -584,6 +584,18 @@ void systemResetCallback()
 
 void setup()
 {
+  // Just something to fix the wierd problem with wifi not starting if YunSerialTerminal isn't uploaded.
+  // Also forwards console output to a connected computer.
+  Serial.begin(115200);
+  Serial1.begin(250000);
+  while(millis() < 80000){
+    if(Serial1.available()){
+      Serial.write(Serial1.read());
+    }
+  }
+  Serial.write("80 seconds elapsed, wifi should now be online.\nConsole output will no longer be forwarded, starting Firmata");
+  Serial1.end();
+  
   Firmata.setFirmwareVersion(FIRMATA_MAJOR_VERSION, FIRMATA_MINOR_VERSION);
 
   Firmata.attach(ANALOG_MESSAGE, analogWriteCallback);
@@ -593,7 +605,7 @@ void setup()
   Firmata.attach(SET_PIN_MODE, setPinModeCallback);
   Firmata.attach(START_SYSEX, sysexCallback);
   Firmata.attach(SYSTEM_RESET, systemResetCallback);
-
+  
   Serial1.begin(115200);
   Firmata.begin(Serial1);
   systemResetCallback();  // reset to default config
