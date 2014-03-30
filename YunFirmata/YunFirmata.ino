@@ -592,6 +592,7 @@ void setup()
     if(Serial1.available()){
       Serial.write(Serial1.read());
     }
+    if(Serial.available()){ break; }
   }
   Serial.write("80 seconds elapsed, wifi should now be online.\nConsole output will no longer be forwarded, starting Firmata");
   Serial1.end();
