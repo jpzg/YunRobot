@@ -1,41 +1,38 @@
-import socket
-import re
 from pyfirmata import Arduino, util
+from tornado import websocket, web, ioloop
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+INPUT = 0
+OUTPUT = 1
+ANALOG = 2
+PWM = 3
+SERVO = 4
 
-#s.bind(('192.168.240.1', 3146))
-print('Enter ip address for command socket:')
-s.bind((raw_input(),3146))
-s.listen(1);
-print('Socket created.')
+yun = Arduino('/dev/ttyATH0', baudrate=115200);
 
-board = Arduino('/dev/ttyATH0', baudrate=115200)
+cl = []
 pin = [None]*14
-p = re.compile(r'\d')
+class SocketHandler(websocket.WebSocketHandler):
 
-while True:
-	conn, addr = s.accept()
-	print "Connection accepted",addr
-	while True:
-		try:
-			data = conn.recv(64)
-		except Exception:
-			break
-		if not data: break
-		try:
-			if "board.get_pin" in data: # Handle the get_pin command
-				pin[int(p.findall(data)[0])] = eval(data)
-			else:
-				value = eval(data) # Handle all other commands
-			print "Executed command : " + data + " from " + addr[0]
-			if(value): # Send any output from the command back through the socket
-				conn.send(str(value) + "\n")
-				print "Command returned value: " + str(value)
-				value = None
-		except Exception,e:
-			print "Error while running command from " + addr[0]
-			print e
-	conn.close()
-	print "Connection closed"
+    def open(self):
+        if self not in cl:
+            cl.append(self)
+            print "[INFO] New connection:", self.request.remote_ip
+            
+    def on_message(self, message):
+        try:
+            print '[CMD]', message
+            value = eval(message)
+            if value != None:
+                print value
+                self.write_message(str(value))
+        except Exception,e:
+            print '[ERROR]', e
+            
+    def on_close(self):
+        cl.remove(self)
+        print "[INFO] Client disconnected:", self.request.remote_ip
+
+app = web.Application([(r'/ws', SocketHandler)])
+if __name__ == '__main__':
+    app.listen(3146)
+    ioloop.IOLoop.instance().start()
