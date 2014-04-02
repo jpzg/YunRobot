@@ -22,10 +22,9 @@ class SocketHandler(websocket.WebSocketHandler):
         try:
             print '[CMD]', message
             value = eval(message)
-            if value:
+            if value != None:
                 print value
                 self.write_message(str(value))
-                
         except Exception,e:
             print '[ERROR]', e
             
