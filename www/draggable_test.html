@@ -7,16 +7,31 @@
 <script src="js/jquery-ui/ui/minified/jquery-ui.min.js"></script>
 <script src="js/draggabilly.pkgd.min.js"></script>
 <script type="text/javascript"></script>
+<style>
+.draggable{
+	width:75px;
+	height:75px;
+}
+</style>
 </head>
 
 <body>
-<div id="draggable" style="background:#000000; width:50px; height:50px"></div>
-<div id="draggable2" style="background:#FF0004; width:50px; height:50px"></div>
 
 <script type="text/javascript">
+var box = [];
+function RandInt(m,mx){
+	return Math.floor(Math.random() * (mx - m + 1 + m));
+}
 $(function() {
-	box1 = new Draggabilly(document.querySelector('#draggable'),{axis:'x'});
-	box2 = new Draggabilly(document.querySelector('#draggable2'),{axis:'y'});
+	
+	for(var i = 0; i < 10; i++){ // Add divs
+		$('body').append('<div class="draggable"></div>')
+	}
+	s = $('.draggable');
+	for(var i = 0; i < 10; i++){ // Randomize colors for each and make it a Draggabilly
+		s[i].style.background = 'rgb(' + RandInt(0,255) + ',' + RandInt(0,255) + ',' + RandInt(0,255) + ')';
+		box[i] = new Draggabilly(s[i],{});
+	}
 });
 </script>
 </body>
