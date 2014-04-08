@@ -27,105 +27,101 @@ rel="shortcut icon">
 </HEAD>
 <BODY>
 <DIV class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-  <DIV class="container-fluid">
-    <DIV class="navbar-header">
-      <BUTTON class="navbar-toggle" type="button" 
+	<DIV class="container-fluid">
+		<DIV class="navbar-header">
+			<BUTTON class="navbar-toggle" type="button" 
 data-toggle="collapse" data-target=".navbar-collapse"><SPAN 
 class="sr-only">Toggle navigation</SPAN> <SPAN 
 class="icon-bar"></SPAN><SPAN class="icon-bar"></SPAN><SPAN 
 class="icon-bar"></SPAN></BUTTON>
-      <A id="nav-title" class="navbar-brand" href="#"></A> </DIV>
-    <DIV class="navbar-collapse collapse">
-      <UL class="nav navbar-nav navbar-right">
-        <LI><A href="#">Robot Manager</A></LI>
-        <LI><A href="config.html">Arduino Webpanel</A></LI>
-        <LI><A href="/cgi-bin/luci/;stok=d2a12883d15d3ff6fc652e6a836dab37">LuCI</A></LI>
-      </UL>
-      <FORM 
+			<A id="nav-title" class="navbar-brand" href="#"></A> </DIV>
+		<DIV class="navbar-collapse collapse">
+			<UL class="nav navbar-nav navbar-right">
+				<LI><A href="#">Robot Manager</A></LI>
+				<LI><A href="config.html">Arduino Webpanel</A></LI>
+				<LI><A href="/cgi-bin/luci/;stok=d2a12883d15d3ff6fc652e6a836dab37">LuCI</A></LI>
+			</UL>
+			<FORM 
 class="navbar-form navbar-right">
-        <INPUT class="form-control" type="text" placeholder="Search..." value="">
-      </FORM>
-    </DIV>
-  </DIV>
+				<INPUT class="form-control" type="text" placeholder="Search..." value="">
+			</FORM>
+		</DIV>
+	</DIV>
 </DIV>
 <DIV class="container-fluid">
-  <DIV class="row">
-    <DIV class="col-sm-3 col-md-2 sidebar">
-      <UL class="nav nav-sidebar">
-        <LI class="active"><A 
+	<DIV class="row">
+		<DIV class="col-sm-3 col-md-2 sidebar">
+			<UL class="nav nav-sidebar">
+				<LI class="active"><A 
   href="http://getbootstrap.com/examples/dashboard/#">Overview</A></LI>
-        <LI><A href="http://getbootstrap.com/examples/dashboard/#">Reports</A></LI>
-        <LI><A href="http://getbootstrap.com/examples/dashboard/#">Analytics</A></LI>
-        <LI><A href="http://getbootstrap.com/examples/dashboard/#">Export</A></LI>
-        <li><div id="conn-status" class="alert alert-warning">Not connected</div> </li>
-      </UL>
-    </DIV>
-    <DIV class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-      <H1 class="page-header">Dashboard</H1>
-      <DIV class="row placeholders">
-        <DIV class="col-xs-6 col-sm-3 placeholder"><IMG class="img-responsive" alt="Generic placeholder thumbnail" 
-data-src="holder.js/200x200/auto/sky">
-          <H4>Label</H4>
-          <SPAN class="text-muted">Something else</SPAN> </DIV>
-        <DIV class="col-xs-6 col-sm-3 placeholder"><IMG class="img-responsive" alt="Generic placeholder thumbnail" 
-data-src="holder.js/200x200/auto/vine">
-          <H4>Label</H4>
-          <SPAN class="text-muted">Something else</SPAN> </DIV>
-        <DIV class="col-xs-6 col-sm-3 placeholder"><IMG class="img-responsive" alt="Generic placeholder thumbnail" 
-data-src="holder.js/200x200/auto/sky">
-          <H4>Label</H4>
-          <SPAN class="text-muted">Something else</SPAN> </DIV>
-        <DIV class="col-xs-6 col-sm-3 placeholder"><IMG class="img-responsive" alt="Generic placeholder thumbnail" 
-data-src="holder.js/200x200/auto/vine">
-          <H4>Label</H4>
-          <SPAN class="text-muted">Something else</SPAN> </DIV>
-      </DIV>
-      <H2 class="sub-header">Pin Info</H2>
-      <DIV class="table-responsive">
-        <table id="digital" class="table table-striped">
-          <thead>
-            <tr>
-              <th colspan="4" style="text-align: center">Digital</th>
-            </tr>
-            <tr>
-              <th>Pin #</th>
-              <th>Type</th>
-              <th>Mode</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-      </DIV>
-      <div class="table-responsive">
-        <table id="analog" class="table table-striped">
-          <thead>
-            <tr>
-              <th colspan="4" style="text-align:center">Analog</th>
-            </tr>
-            <tr>
-              <th>Pin #</th>
-              <th>Type</th>
-              <th>Mode</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-      </div>
-    </DIV>
-  </DIV>
+				<LI><A href="http://getbootstrap.com/examples/dashboard/#">Reports</A></LI>
+				<LI><A href="http://getbootstrap.com/examples/dashboard/#">Analytics</A></LI>
+				<LI><A href="http://getbootstrap.com/examples/dashboard/#">Export</A></LI>
+				<li>
+					<div id="conn-status" class="alert alert-warning">Not connected</div>
+				</li>
+			</UL>
+		</DIV>
+		<DIV class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			<H1 class="page-header">Dashboard</H1>
+			<DIV class="row placeholders">
+				<div id="x-slider-c" class="touch-box">
+					<div id="x-slider" class="touch-slider"></div>
+				</div>
+			</DIV>
+			<H2 class="sub-header">Pin Info</H2>
+			<DIV class="table-responsive">
+				<table id="digital" class="table table-striped">
+					<thead>
+						<tr>
+							<th colspan="4" style="text-align: center">Digital</th>
+						</tr>
+						<tr>
+							<th>Pin #</th>
+							<th>Type</th>
+							<th>Mode</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</DIV>
+			<div class="table-responsive">
+				<table id="analog" class="table table-striped">
+					<thead>
+						<tr>
+							<th colspan="4" style="text-align:center">Analog</th>
+						</tr>
+						<tr>
+							<th>Pin #</th>
+							<th>Type</th>
+							<th>Mode</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</DIV>
+	</DIV>
 </DIV>
 </BODY>
 <!-- Bootstrap core JavaScript
-    ================================================== --> 
-<!-- Placed at the end of the document so the pages load faster --> 
-<SCRIPT src="js/jquery-2.1.0.min.js"></SCRIPT> 
-<SCRIPT src="js/bootstrap.min.js"></SCRIPT> 
-<SCRIPT src="js/docs.min.js"></SCRIPT> 
-<!--<script src="js/d3.v3.min.js"></script> -->
-<script src="index.js"></script> 
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<SCRIPT src="js/jquery-2.1.0.min.js"></SCRIPT>
+<SCRIPT src="js/bootstrap.min.js"></SCRIPT>
+<SCRIPT src="js/docs.min.js"></SCRIPT>
+<!--<script src="js/d3.v3.min.js"></script>-->
+<script src="js/draggabilly.pkgd.min.js"></script>
+<script src="index.js"></script>
+<script type="text/javascript">
+var slider_x = new Draggabilly(document.querySelector('#x-slider'),{
+	axis:'x',
+	containment:'#x-slider-c'
+});
+</script>
 </BODY>
 </HTML>
