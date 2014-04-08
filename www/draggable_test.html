@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <title>Draggable</title>
 <script src="js/jquery-2.1.0.min.js"></script>
-<script src="js/jquery-ui/ui/minified/jquery-ui.min.js"></script>
 <script src="js/draggabilly.pkgd.min.js"></script>
 <script type="text/javascript"></script>
+<link rel="stylesheet" href="index.css">
 <style>
 .draggable{
 	width:75px;
@@ -16,7 +16,9 @@
 </head>
 
 <body>
-
+<div id="x-slider-c" class="touch-box">
+	<div id="x-slider" class="touch-slider"></div>
+</div>
 <script type="text/javascript">
 var box = [];
 function RandInt(m,mx){
@@ -32,6 +34,10 @@ $(function() {
 		s[i].style.background = 'rgb(' + RandInt(0,255) + ',' + RandInt(0,255) + ',' + RandInt(0,255) + ')';
 		box[i] = new Draggabilly(s[i],{});
 	}
+	var slider = new Draggabilly(document.querySelector('#x-slider'),{
+		axis:'x',
+		containment:'#x-slider-c'
+	});
 });
 </script>
 </body>
