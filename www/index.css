@@ -1,3 +1,44 @@
+/* 
+ * My additions
+ */
+.touch-box {
+    -webkit-box-shadow: inset 0 0 15px #AAA;
+    -moz-box-shadow: inset 0 0 15px #AAA;
+    box-shadow: inset 0 0 15px #AAA;
+    
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+	
+    background: #F5F5F5;
+    display: block;
+    width: 300px;
+    height: 40px;
+    margin: 20px;
+}
+.touch-slider {
+	position:relative;
+	-webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+	border: thin solid #979797;
+	background: #E5E5E5;
+    display: block;
+    width: 15%;
+    height: 100%;
+}
+.touch-slider:hover {
+	border:thin solid #2369AB;
+	background:#59A4E9;
+}
+.touch-slider.is-dragging {
+	border: thin solid #0055C8;
+	background:#0077EE;
+}
+	
+
+
+
 /*
  * Base structure
  */

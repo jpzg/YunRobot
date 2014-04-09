@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Draggable</title>
+<script src="js/jquery-2.1.0.min.js"></script>
+<script src="js/draggabilly.pkgd.min.js"></script>
+<script type="text/javascript"></script>
+<link rel="stylesheet" href="index.css">
+<style>
+.draggable{
+	width:75px;
+	height:75px;
+}
+</style>
+</head>
+
+<body>
+<div id="x-slider-c" class="touch-box">
+	<div id="x-slider" class="touch-slider"></div>
+</div>
+<script type="text/javascript">
+var box = [];
+function RandInt(m,mx){
+	return Math.floor(Math.random() * (mx - m + 1 + m));
+}
+$(function() {
+	
+	for(var i = 0; i < 10; i++){ // Add divs
+		$('body').append('<div class="draggable"></div>')
+	}
+	s = $('.draggable');
+	for(var i = 0; i < 10; i++){ // Randomize colors for each and make it a Draggabilly
+		s[i].style.background = 'rgb(' + RandInt(0,255) + ',' + RandInt(0,255) + ',' + RandInt(0,255) + ')';
+		box[i] = new Draggabilly(s[i],{});
+	}
+	var slider = new Draggabilly(document.querySelector('#x-slider'),{
+		axis:'x',
+		containment:'#x-slider-c'
+	});
+});
+</script>
+</body>
+</html>
