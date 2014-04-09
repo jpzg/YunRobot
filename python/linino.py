@@ -10,6 +10,7 @@ SERVO = 4
 yun = Arduino('/dev/ttyATH0', baudrate=115200);
 
 cl = []
+
 pin = [None]*14
 class SocketHandler(websocket.WebSocketHandler):
 
@@ -27,6 +28,7 @@ class SocketHandler(websocket.WebSocketHandler):
                 self.write_message(str(value))
         except Exception,e:
             print '[ERROR]', e
+            self.write_message(e)
             
     def on_close(self):
         cl.remove(self)
