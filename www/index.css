@@ -27,6 +27,10 @@
     width: 15%;
     height: 100%;
 }
+.touch-slider:hover {
+	border:thin solid #2369AB;
+	background:#59A4E9;
+}
 .touch-slider.is-dragging {
 	border: thin solid #0055C8;
 	background:#0077EE;

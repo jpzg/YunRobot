@@ -1,20 +1,20 @@
 ﻿<!DOCTYPE html>
-<HTML lang="en">
-<HEAD>
-<META content="IE=11.0000" 
+<html lang="en">
+<head>
+<meta content="IE=11.0000" 
 http-equiv="X-UA-Compatible">
-<META charset="utf-8">
-<META http-equiv="X-UA-Compatible" content="IE=edge">
-<META name="viewport" content="width=device-width, initial-scale=1">
-<META name="description" content="">
-<META name="author" content="Jacob Grossbard">
-<LINK href="../../assets/ico/favicon.ico" 
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="Jacob Grossbard">
+<link href="../../assets/ico/favicon.ico" 
 rel="shortcut icon">
-<TITLE>Robot Manager</TITLE>
+<title>Robot Manager</title>
 <!-- Bootstrap core CSS -->
-<LINK href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap.min.css" rel="stylesheet">
 <!-- Custom styles for this template -->
-<LINK href="index.css" rel="stylesheet">
+<link href="index.css" rel="stylesheet">
 <!-- Just for debugging purposes. Don't actually copy this line! -->
 <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -23,54 +23,55 @@ rel="shortcut icon">
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-<META name="GENERATOR" content="MSHTML 11.00.9600.16521">
-</HEAD>
-<BODY>
-<DIV class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-	<DIV class="container-fluid">
-		<DIV class="navbar-header">
-			<BUTTON class="navbar-toggle" type="button" 
-data-toggle="collapse" data-target=".navbar-collapse"><SPAN 
-class="sr-only">Toggle navigation</SPAN> <SPAN 
-class="icon-bar"></SPAN><SPAN class="icon-bar"></SPAN><SPAN 
-class="icon-bar"></SPAN></BUTTON>
-			<A id="nav-title" class="navbar-brand" href="#"></A> </DIV>
-		<DIV class="navbar-collapse collapse">
-			<UL class="nav navbar-nav navbar-right">
-				<LI><A href="#">Robot Manager</A></LI>
-				<LI><A href="config.html">Arduino Webpanel</A></LI>
-				<LI><A href="/cgi-bin/luci/;stok=d2a12883d15d3ff6fc652e6a836dab37">LuCI</A></LI>
-			</UL>
-			<FORM 
+<meta name="GENERATOR" content="MSHTML 11.00.9600.16521">
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button class="navbar-toggle" type="button" 
+data-toggle="collapse" data-target=".navbar-collapse"><span 
+class="sr-only">Toggle navigation</span> <span 
+class="icon-bar"></span><span class="icon-bar"></span><span 
+class="icon-bar"></span></button>
+			<a id="nav-title" class="navbar-brand" href="#"></a> </div>
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#">Robot Manager</a></li>
+				<li><a href="config.html">Arduino Webpanel</a></li>
+				<li><a href="/cgi-bin/luci/;stok=d2a12883d15d3ff6fc652e6a836dab37">LuCI</a></li>
+			</ul>
+			<form 
 class="navbar-form navbar-right">
-				<INPUT class="form-control" type="text" placeholder="Search..." value="">
-			</FORM>
-		</DIV>
-	</DIV>
-</DIV>
-<DIV class="container-fluid">
-	<DIV class="row">
-		<DIV class="col-sm-3 col-md-2 sidebar">
-			<UL class="nav nav-sidebar">
-				<LI class="active"><A 
-  href="http://getbootstrap.com/examples/dashboard/#">Overview</A></LI>
-				<LI><A href="http://getbootstrap.com/examples/dashboard/#">Reports</A></LI>
-				<LI><A href="http://getbootstrap.com/examples/dashboard/#">Analytics</A></LI>
-				<LI><A href="http://getbootstrap.com/examples/dashboard/#">Export</A></LI>
+				<input class="form-control" type="text" placeholder="Search..." value="">
+			</form>
+		</div>
+	</div>
+</div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 col-md-2 sidebar">
+			<ul class="nav nav-sidebar">
+				<li class="active"><a 
+  href="http://getbootstrap.com/examples/dashboard/#">Overview</a></li>
+				<li><a href="http://getbootstrap.com/examples/dashboard/#">Reports</a></li>
+				<li><a href="http://getbootstrap.com/examples/dashboard/#">Analytics</a></li>
+				<li><a href="http://getbootstrap.com/examples/dashboard/#">Export</a></li>
 				<li>
 					<div id="conn-status" class="alert alert-warning">Not connected</div>
 				</li>
-			</UL>
-		</DIV>
-		<DIV class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<H1 class="page-header">Dashboard</H1>
-			<DIV class="row placeholders">
+			</ul>
+		</div>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			<h1 class="page-header">Dashboard</h1>
+			<div class="row placeholders">
 				<div id="x-slider-c" class="touch-box">
 					<div id="x-slider" class="touch-slider"></div>
 				</div>
-			</DIV>
-			<H2 class="sub-header">Pin Info</H2>
-			<DIV class="table-responsive">
+				<div id="pos"></div>
+			</div>
+			<h2 class="sub-header">Pin Info</h2>
+			<div class="table-responsive">
 				<table id="digital" class="table table-striped">
 					<thead>
 						<tr>
@@ -86,7 +87,7 @@ class="navbar-form navbar-right">
 					<tbody>
 					</tbody>
 				</table>
-			</DIV>
+			</div>
 			<div class="table-responsive">
 				<table id="analog" class="table table-striped">
 					<thead>
@@ -104,24 +105,18 @@ class="navbar-form navbar-right">
 					</tbody>
 				</table>
 			</div>
-		</DIV>
-	</DIV>
-</DIV>
-</BODY>
+		</div>
+	</div>
+</div>
+</body>
 <!-- Bootstrap core JavaScript
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<SCRIPT src="js/jquery-2.1.0.min.js"></SCRIPT>
-<SCRIPT src="js/bootstrap.min.js"></SCRIPT>
-<SCRIPT src="js/docs.min.js"></SCRIPT>
+<script src="js/jquery-2.1.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/docs.min.js"></script>
 <!--<script src="js/d3.v3.min.js"></script>-->
 <script src="js/draggabilly.pkgd.min.js"></script>
 <script src="index.js"></script>
-<script type="text/javascript">
-var slider_x = new Draggabilly(document.querySelector('#x-slider'),{
-	axis:'x',
-	containment:'#x-slider-c'
-});
-</script>
-</BODY>
-</HTML>
+</body>
+</html>
