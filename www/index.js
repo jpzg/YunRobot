@@ -36,10 +36,13 @@ var servo_onMove = function (instance, event, pointer) {
     $('#pos').text(instance.position.x * (160 / 255));
     drag_pos = instance.position.x * (160 / 255);
 }
-
+var disableLink = function(selection){
+	$(selection + ' > a').attr('href','javascript:null(0)');
+	$(selection).addClass('disabled');
+}
 $(function () {
     $('#nav-title').text('Robot @ ' + window.location.host);
-
+	disableLink('#tabs > li');
     if (!window.location.host) { host = 'ws://192.168.2.120:3146/ws';}
     else { host = 'ws://' + window.location.host + ':3146/ws' }
     socket = new WebSocket(host);

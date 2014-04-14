@@ -1,0 +1,35 @@
+<h2 class="sub-header">Pin Info</h2>
+			<div class="table-responsive">
+				<table id="digital" class="table table-striped">
+					<thead>
+						<tr>
+							<th colspan="4" style="text-align: center">Digital</th>
+						</tr>
+						<tr>
+							<th>Pin #</th>
+							<th>Type</th>
+							<th>Mode</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+			<div class="table-responsive">
+				<table id="analog" class="table table-striped">
+					<thead>
+						<tr>
+							<th colspan="4" style="text-align:center">Analog</th>
+						</tr>
+						<tr>
+							<th>Pin #</th>
+							<th>Type</th>
+							<th>Mode</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
