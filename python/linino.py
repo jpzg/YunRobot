@@ -7,16 +7,17 @@ ANALOG = 2
 PWM = 3
 SERVO = 4
 
-yun = Arduino('/dev/ttyATH0', baudrate=115200);
+yun = Arduino('/dev/ttyATH0', baudrate=115200)
 
-cl = []
+cl = {'drive':None,'servo':None}
+ncl = []
 
-pin = [None]*14
+pin = [None] * 14
 class SocketHandler(websocket.WebSocketHandler):
 
     def open(self):
-        if self not in cl:
-            cl.append(self)
+        if self not in ncl and self not in cl.values():
+            ncl.append(self)
             print "[INFO] New connection:", self.request.remote_ip
             
     def on_message(self, message):

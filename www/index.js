@@ -1,4 +1,5 @@
 var socket; // WebSocket object
+var host;
 var drag_pos = 0;
 var buffer = new Array(); // Buffer for functions to be called on message received
 
@@ -35,12 +36,13 @@ var servo_onMove = function (instance, event, pointer) {
     $('#pos').text(instance.position.x * (160 / 255));
     drag_pos = instance.position.x * (160 / 255);
 }
+
 $(function () {
     $('#nav-title').text('Robot @ ' + window.location.host);
 
-    socket = new WebSocket('ws://' + window.location.host + ':3146/ws');
-    //socket = new WebSocket('ws://192.168.2.120:3146/ws'); // Just for testing
-
+    if (!window.location.host) { host = 'ws://192.168.2.120:3146/ws';}
+    else { host = 'ws://' + window.location.host + ':3146/ws' }
+    socket = new WebSocket(host);
     socket.onopen = function (evt) {
         $('#conn-status').removeClass('alert-warning').addClass('alert-success').text('Connected');
         //updatePins.timer = window.setInterval(updatePins, 1000);
