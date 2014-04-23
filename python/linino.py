@@ -11,7 +11,7 @@ SERVO = 4
 
 yun = Arduino('/dev/ttyATH0', baudrate=115200)
 
-cl = {'drive':None,'servo':None} # Dict of roles, clients who fill them are put in under that index
+cl = {'drive':None,'attachment':None} # Dict of roles, clients who fill them are put in under that index
 ncl = [] # Array of clients without roles, e.g.  any who are just looking at info.
 def removeClient(client): # Remove client from ncl if present, before looking through roles
     if client in ncl:
@@ -40,26 +40,24 @@ class SocketHandler(websocket.WebSocketHandler):
             print "[INFO] New connection:", self.request.remote_ip
             
     def on_message(self, message): # Execute received message as python code and send back any returned value,
-                                   # unless the '_evt_' prefix is present
-        try:
-            if message[0:4] == '_evt_': # Check for evt prefix
-                if 'getRole' in message: # Switch client role
-                    result,r = removeClient(self)
-                    role = message[message.find(':') + 1:]
-                    cl[role] = self
-                    broadcast(json.dumps({'type':'event.closeRole', 'role':role}))
-                    if result == 2:
-                        broadcast(json.dumps({'type':'event.openRole','role':r}))
-                    print '[EVT]', self.request.remote_ip + ' switched roles to ' + role
+        obj = json.loads(message)
+        if obj['type'] == 'event.switchRole': # Switch client role
+            result,r = removeClient(self)
+            role = message[message.find(':') + 1:]
+            if role != 'null':
+                cl[role] = self
             else:
-                print '[CMD]', message, self.request.remote_ip
-                value = eval(message)
-                if value != None:
-                    print value
-                    self.write_message(str(value))
-        except Exception,e:
-            print '[ERROR]', e
-            self.write_message(e)
+                ncl.append(self)
+            broadcast(json.dumps({'type':'event.closeRole', 'data':role}))
+            if result == 2:
+                broadcast(json.dumps({'type':'event.openRole','data':r}))
+            print '[EVT]', self.request.remote_ip + ' switched roles to ' + role
+        else:
+            print '[CMD]', message, self.request.remote_ip
+            value = eval(message)
+            if value != None:
+                print value
+                self.write_message(json.dumps({'type':'value','data':value}))
             
     def on_close(self): # Remove client
         removeClient(self)
