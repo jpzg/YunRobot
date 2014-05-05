@@ -21,6 +21,7 @@ var updatePins = function (info) {
 		sel2[3] = info[i].value;
     }
 }
+
 var setServo = function () {
     socket.send('yun.digital[9].write(' + drag_pos + ')');
 }
@@ -36,30 +37,23 @@ var enableTab = function(selection){
 	$(selection).attr('data-toggle','tab');
 	$(selection).parent().removeClass('disabled');
 }
-$(function () {
-	// Determine robot IP and open socket
-    if (!window.location.host) { host = '192.168.2.120';}
-    else { host = window.location.host }
-	$('#nav-title').text('Robot @ ' + host);
+var connect = function (ip) {
+    host = ip
+    $('#nav-title').text('Robot @ ' + host);
     socket = new WebSocket('ws://' + host + ':3146/ws');
-    socket.onopen = function (evt) {
-        $('#conn-status').removeClass('alert-warning').addClass('alert-success').text('Connected');
-        //updatePins.timer = window.setInterval(updatePins, 1000);
-        setServo.interval = window.setInterval(setServo, 25);
-    }
     socket.onmessage = function (evt) {
-		obj = JSON.parse(evt.data.substr(5));
-		switch(obj.type){
-			case 'event.closeRole':
-				disableLink('#tabs a[href="#' + obj.data + '"]');
-				break
-			case 'event.openRole':
-				enableLink('#tabs a[href+"#' + obj.data + '"]');
-				break
-			default:
-				buffer.pop().call(document, evt.data); // pops a function off the buffer and runs it with the received value as an arg
-				break
-		}
+        obj = JSON.parse(evt.data.substr(5));
+        switch (obj.type) {
+            case 'event.closeRole':
+                disableLink('#tabs a[href="#' + obj.data + '"]');
+                break
+            case 'event.openRole':
+                enableLink('#tabs a[href+"#' + obj.data + '"]');
+                break
+            default:
+                buffer.pop().call(document, evt.data); // pops a function off the buffer and runs it with the received value as an arg
+                break
+        }
     }
     socket.onerror = function (evt) {
         $('#conn-status').removeClass('alert-success').addClass('alert-danger').text('Socket Error');
@@ -68,6 +62,21 @@ $(function () {
         $('#conn-status').removeClass('alert-success').addClass('alert-warning').text('Socket Closed');
         window.clearInterval(updatePins.timer);
         window.clearInterval(setServo.interval);
+    }
+}
+var handleSubmit = function (evt) {
+    evt.preventDefault();
+    connect($('#ip').value());
+}
+$(function () {
+	// Determine robot IP and open socket
+    if (!window.location.host) { host = '192.168.2.120'; }
+    else { host = window.location.host; }
+	connect(host);
+    socket.onopen = function (evt) {
+        $('#conn-status').removeClass('alert-warning').addClass('alert-success').text('Connected');
+        //updatePins.timer = window.setInterval(updatePins, 1000);
+        setServo.interval = window.setInterval(setServo, 25);
     }
 
 	// Create draggable object for servo slider and attach movement event handler
