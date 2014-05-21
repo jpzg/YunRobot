@@ -24,7 +24,8 @@ def removeClient(client): # Remove client from ncl if present, before looking th
                 return 2,k
     return -1
 
-def broadcast(message): # Broadcast a single message to clients.  Pin updates, role openings, etc.
+def broadcast(data): # Broadcast a single message to clients.  Pin updates, role openings, etc.
+    message = json.dumps(data);
     for client in ncl:
         client.write_message(message)
     for client in cl.values():
@@ -42,18 +43,17 @@ class SocketHandler(websocket.WebSocketHandler):
     def on_message(self, message): # Execute received message as python code and send back any returned value,
         obj = json.loads(message)
         if obj['type'] == 'event.switchRole': # Switch client role
-            result,r = removeClient(self)
-            role = message[message.find(':') + 1:]
-            if role != 'null':
-                cl[role] = self
+            result,role = removeClient(self)
+            if obj['data'] != 'null':
+                cl[obj['data']] = self
+                broadcast({'type':'event.closeRole', 'data':obj['data']})
             else:
                 ncl.append(self)
-            broadcast(json.dumps({'type':'event.closeRole', 'data':role}))
             if result == 2:
-                broadcast(json.dumps({'type':'event.openRole','data':r}))
-            print '[EVT]', self.request.remote_ip + ' switched roles to ' + role
-        else:
-            print '[CMD]', message, self.request.remote_ip
+                broadcast({'type':'event.openRole','data':r})
+            print '[EVT]', self.request.remote_ip + ' switched roles to ' + obj['data']
+        if obj['type'] == 'command':
+            print '[CMD]', obj, self.request.remote_ip
             value = eval(message)
             if value != None:
                 print value
