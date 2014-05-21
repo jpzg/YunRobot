@@ -32,6 +32,8 @@
 #include <Servo.h>
 #include <Wire.h>
 #include <Firmata.h>
+#include <Adafruit_MotorShield.h>
+
 
 // move the following defines to Firmata.h?
 #define I2C_WRITE B00000000
@@ -45,6 +47,13 @@
 #define MINIMUM_SAMPLING_INTERVAL 10
 
 #define REGISTER_NOT_SPECIFIED -1
+
+// Defines for Adafruit Motor Shield custom commands (User reserved 0-15/0x00-0x0F)
+#define AFMS_GET_SHIELD   0x00
+#define AFMS_MOTOR_DIR    0x01
+#define AFMS_MOTOR_SPD    0x02
+// To be implemented:
+// defines for steppers (init, step, onestep, setspeed, release)
 
 /*==============================================================================
  * GLOBAL VARIABLES
@@ -83,6 +92,13 @@ signed char queryIndex = -1;
 unsigned int i2cReadDelayTime = 0;  // default delay time between i2c read request and Wire.requestFrom()
 
 Servo servos[MAX_SERVOS];
+
+/* for Adafruit Motor Shield v2 */
+Adafruit_MotorShield AFMS[1] = {
+  Adafruit_MotorShield(0x60)
+};
+
+
 /*==============================================================================
  * FUNCTIONS
  *============================================================================*/
@@ -511,6 +527,28 @@ void sysexCallback(byte command, byte argc, byte *argv)
       }
       Firmata.write(END_SYSEX);
       break;
+    case AFMS_GET_SHIELD:
+      if(argc == 1){
+        byte addr = argv[0];
+        AFMS[addr - 0x60].begin();
+      }
+      break;
+    case AFMS_MOTOR_DIR:
+      if(argc == 3){
+        byte addr = argv[0];
+        byte port = argv[1];
+        byte dir = argv[2];
+        AFMS[addr - 0x60].getMotor(port)->run(dir);
+      }
+      break;
+    case AFMS_MOTOR_SPD:
+      if(argc == 3){
+        byte addr = argv[0];
+        byte port = argv[1];
+        byte spd = argv[3];
+        AFMS[addr - 0x60].getMotor(port)->setSpeed(spd);
+      }
+      break;
   }
 }
 
@@ -588,13 +626,18 @@ void setup()
   // Also forwards console output to a connected computer.
   Serial.begin(115200);
   Serial1.begin(250000);
-  while(millis() < 80000){
+  while(true){
     if(Serial1.available()){
       Serial.write(Serial1.read());
     }
-    if(Serial.available()){ break; }
+    if(!Serial1.available()){
+      delay(5000);
+      if(!Serial1.available()){
+        break;
+      }
+    }
   }
-  Serial.write("80 seconds elapsed, wifi should now be online.\nConsole output will no longer be forwarded, starting Firmata");
+  Serial.write("No output to consume, wifi should now be online.\nConsole output will no longer be forwarded, starting Firmata");
   Serial1.end();
   
   Firmata.setFirmwareVersion(FIRMATA_MAJOR_VERSION, FIRMATA_MINOR_VERSION);
