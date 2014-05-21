@@ -1,0 +1,3 @@
+[submodule "pyFirmata"]
+	path = pyFirmata
+	url = git://github.com/jpzg/pyFirmata.git
