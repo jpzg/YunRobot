@@ -9,6 +9,12 @@ ANALOG = 2
 PWM = 3
 SERVO = 4
 
+### Values for motor direction
+FORWARD = 0
+BACKWARD = 1
+BRAKE = 2
+RELEASE = 3
+
 yun = Arduino('/dev/ttyATH0', baudrate=115200)
 
 cl = {'drive':None,'attachment':None} # Dict of roles, clients who fill them are put in under that index
