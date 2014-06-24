@@ -50,8 +50,8 @@
 
 // Defines for Adafruit Motor Shield custom commands (User reserved 0-15/0x00-0x0F)
 #define AFMS_GET_SHIELD   0x00
-#define AFMS_MOTOR_DIR    0x01
-#define AFMS_MOTOR_SPD    0x02
+#define AFMS_MOTOR_SPD    0x01
+#define AFMS_MOTOR_DIR    0x02
 // To be implemented:
 // defines for steppers (init, step, onestep, setspeed, release)
 
@@ -94,9 +94,12 @@ unsigned int i2cReadDelayTime = 0;  // default delay time between i2c read reque
 Servo servos[MAX_SERVOS];
 
 /* for Adafruit Motor Shield v2 */
+/*
 Adafruit_MotorShield AFMS[1] = {
   Adafruit_MotorShield(0x60)
-};
+};*/
+Adafruit_MotorShield AFMS = Adafruit_MotorShield();
+Adafruit_DCMotor *m1 = AFMS.getMotor(1);
 
 
 /*==============================================================================
@@ -528,25 +531,31 @@ void sysexCallback(byte command, byte argc, byte *argv)
       Firmata.write(END_SYSEX);
       break;
     case AFMS_GET_SHIELD:
-      if(argc == 1){
+      if(argc > 0){
         byte addr = argv[0];
-        AFMS[addr - 0x60].begin();
+        //AFMS[addr - 0x60].begin();
+        AFMS.begin();
+        Serial.println("Shield started");
       }
       break;
     case AFMS_MOTOR_DIR:
-      if(argc == 3){
+      if(argc > 0){
         byte addr = argv[0];
         byte port = argv[1];
         byte dir = argv[2];
-        AFMS[addr - 0x60].getMotor(port)->run(dir);
+        //AFMS[addr - 0x60].getMotor(port)->run(dir);
+        AFMS.getMotor(port)->run(dir);
+        Serial.println("Motor dir changed");
       }
       break;
     case AFMS_MOTOR_SPD:
-      if(argc == 3){
+      if(argc > 0){
         byte addr = argv[0];
         byte port = argv[1];
         byte spd = argv[3];
-        AFMS[addr - 0x60].getMotor(port)->setSpeed(spd);
+        //AFMS[addr - 0x60].getMotor(port)->setSpeed(spd);
+        AFMS.getMotor(port)->setSpeed(spd);
+        Serial.println("Motor spd changed");
       }
       break;
   }
@@ -637,6 +646,13 @@ void setup()
       }
     }
   }
+  AFMS.begin();
+  m1->run(FORWARD);
+  m1->setSpeed(100);
+  delay(1500);
+  m1->setSpeed(200);
+  delay(1500);
+  m1->run(RELEASE);
   Serial.write("No output to consume, wifi should now be online.\nConsole output will no longer be forwarded, starting Firmata");
   Serial1.end();
   
