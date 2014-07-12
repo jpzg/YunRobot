@@ -44,19 +44,18 @@ class SocketHandler(websocket.WebSocketHandler):
     def open(self): # Add new client to dict of roles or array of role-less clients
         if self not in ncl and self not in cl.values():
             ncl.append(self)
-            print "[INFO] New connection:", self.request.remote_ip
-            
+            print "[INFO] New connection:", self.request.remote_ip  
     def on_message(self, message): # Execute received message as python code and send back any returned value,
         obj = json.loads(message)
         if obj['type'] == 'event.switchRole': # Switch client role
             result,role = removeClient(self)
             if obj['data'] != 'null':
                 cl[obj['data']] = self
-                broadcast({'type':'event.closeRole', 'data':obj['data']})
+                broadcast(json.dumps({'type':'event.closeRole', 'data':obj['data']}))
             else:
                 ncl.append(self)
             if result == 2:
-                broadcast({'type':'event.openRole','data':r})
+                broadcast(json.dumps({'type':'event.openRole','data':role}))
             print '[EVT]', self.request.remote_ip + ' switched roles to ' + obj['data']
         if obj['type'] == 'command':
             print '[CMD]', obj, self.request.remote_ip
@@ -64,7 +63,6 @@ class SocketHandler(websocket.WebSocketHandler):
             if value != None:
                 print value
                 self.write_message(json.dumps({'type':'value','data':value}))
-            
     def on_close(self): # Remove client
         removeClient(self)
         print "[INFO] Client disconnected:", self.request.remote_ip
