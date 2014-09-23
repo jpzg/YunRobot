@@ -2,6 +2,7 @@ var socket; // WebSocket object
 var host;
 var role;
 var drag_pos = 0;
+var drag2_pos = 0;
 var buffer = new Array(); // Buffer for functions to be called on message received
 
 var arduino = function (ip, port) {
@@ -33,7 +34,10 @@ var updatePins = function (info) {
     }
 }
 var setServo = function () {
-    socket.send('yun.digital[9].write(' + drag_pos + ')');
+    socket.send(JSON.stringify({ "type": 'command', "data": 'yun.digital[9].write(' + drag_pos + ')' }));
+}
+var setMotor = function () {
+    socket.send(JSON.stringify({ "type": 'command', "data": 'm.setSpeed(' + drag2_pos + ')' }));
 }
 var servo_onMove = function (instance, event, pointer) {
     $('#pos').text(instance.position.x * (160 / 255));
@@ -41,6 +45,7 @@ var servo_onMove = function (instance, event, pointer) {
 }
 var motor_onMove = function (instance, event, pointer) {
     $('#pos2').text(instance.position.y);
+    drag2_pos = instance.position.y;
 }
 var disableTab = function(selection){
 	$(selection).attr('data-toggle','javascript:null(0)');
@@ -75,6 +80,7 @@ var connect = function (ip) {
         $('#conn-status').removeClass('alert-success').addClass('alert-warning').text('Socket Closed');
         window.clearInterval(updatePins.timer);
         window.clearInterval(setServo.interval);
+        window.clearInterval(setMotor.interval);
     }
 }
 var handleSubmit = function (evt) {
@@ -83,14 +89,19 @@ var handleSubmit = function (evt) {
 }
 $(function () {
 	// Determine robot IP and open socket
-    if (!window.location.host) { host = '192.168.2.120'; }
-    else { host = window.location.host; }
-	//connect(host);
-    //socket.onopen = function (evt) {
-    //    $('#conn-status').removeClass('alert-warning').addClass('alert-success').text('Connected');
-    //    //updatePins.timer = window.setInterval(updatePins, 1000);
-    //    setServo.interval = window.setInterval(setServo, 25);
-    //}
+    //if (!window.location.host) { host = prompt('What is the robot IP?'); }
+    //else { host = window.location.host; }
+    host = '192.168.1.13';
+	connect(host);
+    socket.onopen = function (evt) {
+        $('#conn-status').removeClass('alert-warning').addClass('alert-success').text('Connected');
+        //socket.send('s = yun.get_shield()');
+        //socket.send('m = s.getMotor(1)');
+        //socket.send('m.run(1)');
+        //updatePins.timer = window.setInterval(updatePins, 1000);
+        setServo.interval = window.setInterval(setServo, 25);
+        setMotor.interval = window.setInterval(setMotor, 100);
+    }
 
 	// Create draggable object for servo slider and attach movement event handler
     var servo = new Draggabilly($('#x-slider')[0], {

@@ -16,6 +16,9 @@ BRAKE = 2
 RELEASE = 3
 
 yun = Arduino('/dev/ttyATH0', baudrate=115200)
+s = yun.get_shield()
+m = s.getMotor(1)
+m.run(1)
 
 cl = {'drive':None,'attachment':None} # Dict of roles, clients who fill them are put in under that index
 ncl = [] # Array of clients without roles, e.g.  any who are just looking at info.
@@ -59,7 +62,7 @@ class SocketHandler(websocket.WebSocketHandler):
             print '[EVT]', self.request.remote_ip + ' switched roles to ' + obj['data']
         if obj['type'] == 'command':
             print '[CMD]', obj, self.request.remote_ip
-            value = eval(message)
+            value = eval(message['data'])
             if value != None:
                 print value
                 self.write_message(json.dumps({'type':'value','data':value}))
