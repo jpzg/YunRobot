@@ -1,0 +1,3 @@
+[submodule "pyFirmata-AFMS"]
+	path = pyFirmata-AFMS
+	url = git://github.com/jpzg/pyFirmata-AFMS.git

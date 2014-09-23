@@ -15,8 +15,7 @@ rel="shortcut icon">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <!-- Custom styles for this template -->
 <link href="index.css" rel="stylesheet">
-<!-- Just for debugging purposes. Don't actually copy this line! -->
-<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -42,8 +41,8 @@ class="icon-bar"></span></button>
 				<li><a href="/cgi-bin/luci/;stok=d2a12883d15d3ff6fc652e6a836dab37">LuCI</a></li>
 			</ul>
 			<form 
-class="navbar-form navbar-right">
-				<input class="form-control" type="text" placeholder="Search..." value="">
+class="navbar-form navbar-right" onsubmit="handleSubmit(event)">
+                <input  id="ip" class="form-control" type="text" placeholder="IP Address" value="">
 			</form>
 		</div>
 	</div>
@@ -52,58 +51,32 @@ class="navbar-form navbar-right">
 	<div class="row">
 		<div class="col-sm-3 col-md-2 sidebar">
 			<ul class="nav nav-sidebar">
-				<li class="active"><a 
-  href="http://getbootstrap.com/examples/dashboard/#">Overview</a></li>
-				<li><a href="http://getbootstrap.com/examples/dashboard/#">Reports</a></li>
-				<li><a href="http://getbootstrap.com/examples/dashboard/#">Analytics</a></li>
-				<li><a href="http://getbootstrap.com/examples/dashboard/#">Export</a></li>
+				<li class="active"><a href="#">Control</a></li>
+				<li><a href="info.html">Reports</a></li>
 				<li>
 					<div id="conn-status" class="alert alert-warning">Not connected</div>
 				</li>
 			</ul>
 		</div>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<h1 class="page-header">Dashboard</h1>
-			<div class="row placeholders">
-				<div id="x-slider-c" class="touch-box">
-					<div id="x-slider" class="touch-slider"></div>
+			<ul id="tabs" class="nav nav-tabs">
+				<li><a href="#drive" data-toggle="tab">Drive</a></li>
+				<li><a href="#attachment" data-toggle="tab">Attachment Control</a></li>
+			</ul>
+			<div class="tab-content">
+				<div id="drive" class="tab-pane">
+					<p>Hello world!</p>
 				</div>
-				<div id="pos"></div>
-			</div>
-			<h2 class="sub-header">Pin Info</h2>
-			<div class="table-responsive">
-				<table id="digital" class="table table-striped">
-					<thead>
-						<tr>
-							<th colspan="4" style="text-align: center">Digital</th>
-						</tr>
-						<tr>
-							<th>Pin #</th>
-							<th>Type</th>
-							<th>Mode</th>
-							<th>Value</th>
-						</tr>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
-			</div>
-			<div class="table-responsive">
-				<table id="analog" class="table table-striped">
-					<thead>
-						<tr>
-							<th colspan="4" style="text-align:center">Analog</th>
-						</tr>
-						<tr>
-							<th>Pin #</th>
-							<th>Type</th>
-							<th>Mode</th>
-							<th>Value</th>
-						</tr>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
+				<div id="attachment" class="tab-pane">
+					<div id="x-slider-c" class="touch-box">
+						<div id="x-slider" class="touch-slider"></div>
+					</div>
+                    <div id="y-slider-c" class="touch-box-2">
+                        <div id="y-slider" class="touch-slider-2"></div>
+                    </div>
+					<div id="pos"></div>
+                    <div id="pos2"></div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -115,7 +88,6 @@ class="navbar-form navbar-right">
 <script src="js/jquery-2.1.0.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/docs.min.js"></script>
-<!--<script src="js/d3.v3.min.js"></script>-->
 <script src="js/draggabilly.pkgd.min.js"></script>
 <script src="index.js"></script>
 </body>

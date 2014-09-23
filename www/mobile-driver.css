@@ -1,0 +1,21 @@
+﻿html, body {
+    height:100%;
+}
+.full {
+    height:100%;
+}
+.slider-speed {
+    height:95%;
+    background-color:darkgray;
+    margin:auto auto auto auto;
+}
+.slider-object-speed {
+    height:10%;
+    width:95%;
+    background-color:lightgray;
+    margin:auto auto auto auto;
+}
+.info-panel {
+    margin:auto auto auto auto;
+    background-color:darkgrey;
+}
