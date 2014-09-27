@@ -1,86 +1,65 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta content="IE=11.0000" 
-http-equiv="X-UA-Compatible">
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="Jacob Grossbard">
-<link href="../../assets/ico/favicon.ico" 
-rel="shortcut icon">
-<title>Robot Manager</title>
-<!-- Bootstrap core CSS -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<!-- Custom styles for this template -->
-<link href="index.css" rel="stylesheet">
+    <meta content="IE=11.0000"
+          http-equiv="X-UA-Compatible">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Jacob Grossbard">
+    <link href="../../assets/ico/favicon.ico"
+          rel="shortcut icon">
+    <title>Robot Manager</title>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="index.css" rel="stylesheet">
 
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
 
-<meta name="GENERATOR" content="MSHTML 11.00.9600.16521">
+    <meta name="GENERATOR" content="MSHTML 11.00.9600.16521">
 </head>
 <body>
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button class="navbar-toggle" type="button" 
-data-toggle="collapse" data-target=".navbar-collapse"><span 
-class="sr-only">Toggle navigation</span> <span 
-class="icon-bar"></span><span class="icon-bar"></span><span 
-class="icon-bar"></span></button>
-			<a id="nav-title" class="navbar-brand" href="#"></a> </div>
-		<div class="navbar-collapse collapse">
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#">Robot Manager</a></li>
-				<li><a href="config.html">Arduino Webpanel</a></li>
-				<li><a href="/cgi-bin/luci/;stok=d2a12883d15d3ff6fc652e6a836dab37">LuCI</a></li>
-			</ul>
-			<form 
-class="navbar-form navbar-right" onsubmit="handleSubmit(event)">
-                <input  id="ip" class="form-control" type="text" placeholder="IP Address" value="">
-			</form>
-		</div>
-	</div>
-</div>
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-sm-3 col-md-2 sidebar">
-			<ul class="nav nav-sidebar">
-				<li class="active"><a href="#">Control</a></li>
-				<li><a href="info.html">Reports</a></li>
-				<li>
-					<div id="conn-status" class="alert alert-warning">Not connected</div>
-				</li>
-			</ul>
-		</div>
-		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<ul id="tabs" class="nav nav-tabs">
-				<li><a href="#drive" data-toggle="tab">Drive</a></li>
-				<li><a href="#attachment" data-toggle="tab">Attachment Control</a></li>
-			</ul>
-			<div class="tab-content">
-				<div id="drive" class="tab-pane">
-					<p>Hello world!</p>
-				</div>
-				<div id="attachment" class="tab-pane">
-					<div id="x-slider-c" class="touch-box">
-						<div id="x-slider" class="touch-slider"></div>
-					</div>
-                    <div id="y-slider-c" class="touch-box-2">
-                        <div id="y-slider" class="touch-slider-2"></div>
-                    </div>
-					<div id="pos"></div>
-                    <div id="pos2"></div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+
+    <!-- Collapsible top navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button class="navbar-toggle" type="button"
+                        data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                </button>
+                <a id="nav-title" class="navbar-brand" href="#"></a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Robot Manager</a></li>
+                    <li><a href="config.html">Arduino Webpanel</a></li>
+                    <li><a href="/cgi-bin/luci/;stok=d2a12883d15d3ff6fc652e6a836dab37">LuCI</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- End of navbar -->
+
+    <div class="container-fluid">
+        <div id="conn-status" class="alert alert-warning">Not connected</div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <div id="x-slider-c" class="touch-box">
+                <div id="x-slider" class="touch-slider"></div>
+            </div>
+        </div>
+        <div id="y-slider-c" class="touch-box-2">
+            <div id="y-slider" class="touch-slider-2"></div>
+        </div>
+        <div id="pos"></div>
+        <div id="pos2"></div>
+    </div>
 </body>
 <!-- Bootstrap core JavaScript
     ================================================== -->
