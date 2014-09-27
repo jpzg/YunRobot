@@ -9,17 +9,17 @@ PWM = 3
 SERVO = 4
 
 ### Values for motor direction
-FORWARD = 0
-BACKWARD = 1
-BRAKE = 2
-RELEASE = 3
+FORWARD = 1
+BACKWARD = 2
+BRAKE = None # These don't work.
+RELEASE = None
 
 clients = []
 
 yun = Arduino('/dev/ttyATH0', baudrate=115200)
 s = yun.get_shield()
-m = s.getMotor(1)
-m.run(FORWARD)
+m = s.get_motor(1)
+m.dir(FORWARD)
 
 def retrieve(client,value):
     client.send(value)
@@ -28,7 +28,7 @@ def retrieve(client,value):
 class SocketHandler(websocket.WebSocketHandler):
 
     def open(self): # Add new client to dict of roles or array of role-less clients
-        if self not in ncl and self not in cl.values():
+        if self not in clients:
             clients.append(self)
             print "[INFO] New connection:", self.request.remote_ip
               

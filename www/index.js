@@ -2,46 +2,42 @@ var socket; // WebSocket object
 var host;
 var buffer = new Array(); // Buffer for functions to be called on message received
 
-var arduino = function (ip, port) {
-    this.ip = ip;
-    this.port = port;
-    this.address = ip + ":" + port;
-    this.socket = WebSocket('ws://' + this.address + '/');
-    this.servoConfig = function(pin){
-        this.pin = pin;
-        this.socket.send("yun.servo_config(" + this.address + ")");
-        this.__defineGetter__("position",new function(position){
-            this.socket.send("yun.digital[" + pin + "].write(" + position + ")");
-        });
-    }
-}
-
 var get = function (msg, f, o) { // Execute any Yun method which returns a value
     socket.send(msg); // o is caller object. Defaults to document
     if (!o) { o = document; }
     buffer.push(function (s) { f.call(o, s) });
 }
 var setServo = function () {
-    socket.send('yun.digital[9].write(' + servo.pos + ')');
+    if (setServo.pos < 0) { setServo.pos = 0;}
+    if (setServo.pos != setServo.prev) {
+        socket.send('yun.digital[9].write(' + setServo.pos + ')');
+        setServo.prev = setServo.pos;
+    }
 }
 var setMotor = function () {
-    socket.send('m.setSpeed(' + motor.pos + ')');
+    if (setMotor.pos < 0) { setMotor.pos = 0;}
+    if (setMotor.pos != setMotor.prev) {
+        socket.send('m.speed(' + Math.round(setMotor.pos) + ')');
+        setMotor.prev = setMotor.pos;
+    }
 }
+setServo.pos = 0;
+setMotor.pos = 0;
+
 var servo_onMove = function (instance, event, pointer) {
     $('#pos').text(instance.position.x * (160 / 255));
-    servo.pos = instance.position.x * (160 / 255);
+    setServo.pos = instance.position.x * (160 / 255);
 }
 var motor_onMove = function (instance, event, pointer) {
     $('#pos2').text(instance.position.y);
-    motor.pos = instance.position.y;
+    setMotor.pos = instance.position.y;
 }
 var connect = function (ip) {
     host = ip
     $('#nav-title').text('Robot @ ' + host);
     socket = new WebSocket('ws://' + host + ':3146/ws');
     socket.onmessage = function (evt) {
-            buffer.pop().call(document, evt.data); // pops a function off the buffer and runs it with the received value as an arg
-        }
+        buffer.pop().call(document, evt.data); // pops a function off the buffer and runs it with the received value as an arg
     }
     socket.onerror = function (evt) {
         $('#conn-status').removeClass('alert-success').addClass('alert-danger').text('Socket Error');
@@ -51,13 +47,15 @@ var connect = function (ip) {
         window.clearInterval(setServo.interval);
         window.clearInterval(setMotor.interval);
     }
+    return socket
+}
 
 $(function () {
 	// Determine robot IP and open socket
     //if (!window.location.host) { host = prompt('What is the robot IP?'); }
     //else { host = window.location.host; }
-    host = '192.168.1.13';
-	connect(host);
+    host = '192.168.1.7';
+	var socket = connect(host);
     socket.onopen = function (evt) {
         $('#conn-status').removeClass('alert-warning').addClass('alert-success').text('Connected');
         setServo.interval = window.setInterval(setServo, 25);
