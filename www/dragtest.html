@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Drag Test</title>
+    <link href="index.css" rel="stylesheet" />
+    <script src="js/jquery-2.1.0.min.js"></script>
+    <script src="js/draggabilly.pkgd.min.js"></script>
+    <script type="text/javascript">
+        var c;
+        var _pointerDown = function (evt) {
+            $('#handle').show();
+        }
+        var _pointerUp = function (evt) {
+            $('#handle').hide();
+        }
+        var _pointerMove = function (evt) {
+            e = evt.originalEvent;
+			if(e.pressure > 0){
+            	var x = e.clientX;
+            	var y = e.clientY;
+            	var size_x = $('#handle').outerWidth();
+            	var size_y = $('#handle').outerHeight()
+            	x = (x + size_x > c.x2) ? c.x2 - size_x : (x < c.x1) ? c.x1 : x;
+            	y = (y + size_y> c.y2) ? c.y2 - size_y : (y < c.y1) ? c.y1 : y; // Ensure the box stays in the container
+            	$('#handle').css({
+                	'top': y,
+                	'left': x
+            	});
+            	$('#display').text(x + ':' + y);
+            	console.log(x + ':' + y);
+			}
+        }
+        $(document).ready(function () {
+            var offset = $('#container').offset();
+            c = new Object();
+            c.x1 = offset.left;
+            c.y1 = offset.top;
+            c.x2 = offset.left + $('#container').outerWidth();
+            c.y2 = offset.top + $('#container').outerHeight();
+            $('#container').on('pointerdown', _pointerDown);
+            $(document).on('pointerup', _pointerUp);
+            $(document).on('pointermove', _pointerMove);
+            $('#handle').hide();
+
+            var drag = new Draggabilly($('#drag')[0], {
+                'containment': '#container'
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="touch-box tb-square" id="container">
+        <div class="touch-slider ts-square" id="handle"></div>
+        <div class="touch-slider ts-square" id="drag"></div>
+    </div>
+    <div id="display">hello</div>
+</body>
+</html>
