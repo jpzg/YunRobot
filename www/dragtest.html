@@ -15,19 +15,21 @@
         }
         var _pointerMove = function (evt) {
             e = evt.originalEvent;
+			// Only move it if mouse/touch/pen is dragging
 			if(e.pressure > 0){
             	var x = e.clientX;
             	var y = e.clientY;
             	var size_x = $('#handle').outerWidth();
-            	var size_y = $('#handle').outerHeight()
+            	var size_y = $('#handle').outerHeight(); // Keep it within the container
             	x = (x + size_x > c.x2) ? c.x2 - size_x : (x < c.x1) ? c.x1 : x;
-            	y = (y + size_y> c.y2) ? c.y2 - size_y : (y < c.y1) ? c.y1 : y; // Ensure the box stays in the container
-            	$('#handle').css({
+            	y = (y + size_y> c.y2) ? c.y2 - size_y : (y < c.y1) ? c.y1 : y;
+            	$('#handle').css({ // Move it
                 	'top': y,
                 	'left': x
             	});
-            	$('#display').text(x + ':' + y);
-            	console.log(x + ':' + y);
+				x = Math.round(c.sx * (x - c.x1));
+				y = Math.round(c.sy * (y - c.y1)); // Local container coords, mapped 0-255
+            	$('#display').text(x + ':' + y); // Display localized position
 			}
         }
         $(document).ready(function () {
@@ -37,11 +39,14 @@
             c.y1 = offset.top;
             c.x2 = offset.left + $('#container').outerWidth();
             c.y2 = offset.top + $('#container').outerHeight();
+            c.sx = 255 / $('#container').outerWidth();
+            c.sy = 255 / $('#container').outerHeight();
             $('#container').on('pointerdown', _pointerDown);
             $(document).on('pointerup', _pointerUp);
             $(document).on('pointermove', _pointerMove);
             $('#handle').hide();
 
+			// Add a draggabilly, just to show how to make one
             var drag = new Draggabilly($('#drag')[0], {
                 'containment': '#container'
             });
