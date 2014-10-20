@@ -18,8 +18,10 @@ clients = []
 
 yun = Arduino('/dev/ttyATH0', baudrate=115200)
 s = yun.get_shield()
-m = s.get_motor(1)
-m.dir(FORWARD)
+m1 = s.get_motor(1)
+m2 = s.get_motor(3)
+m1.dir, m2.dir = FORWARD, FORWARD
+m1.spd, m2.spd = 0,0
 
 def retrieve(client,value):
     client.send(value)
