@@ -8,6 +8,13 @@
     <script type="text/javascript">
         var c;
         var _pointerDown = function (evt) {
+            _pointerMove({
+                originalEvent: {
+                    clientX: evt.originalEvent.clientX,
+                    clientY: evt.originalEvent.clientY,
+                    pressure: 1
+                }
+            });
             $('#handle').show();
         }
         var _pointerUp = function (evt) {
@@ -27,8 +34,8 @@
                 	'top': y,
                 	'left': x
             	});
-				x = Math.round(c.sx * (x - c.x1));
-				y = Math.round(c.sy * (y - c.y1)); // Local container coords, mapped 0-255
+				x = Math.round(c.sx * (x - c.x1 + size_x));
+				y = Math.round(c.sy * (y - c.y1 + size_y)); // Local container coords, mapped 0-255
             	$('#display').text(x + ':' + y); // Display localized position
 			}
         }
