@@ -1,6 +1,7 @@
 var socket; // WebSocket object
 var host;
 var buffer = new Array(); // Buffer for functions to be called on message received
+var c; // Object to hold position data about motor drag container
 
 var get = function (msg, f, o) { // Execute any Yun method which returns a value
     socket.send(msg); // o is caller object. Defaults to document
@@ -31,17 +32,8 @@ var Motor = function(port){
 };
 var motor = {
     p1:new Motor(1),
-    p2:new Motor(2),
-    onMove:function (instance, event, pointer) {
-        motor.p1.spd = instance.position.x;
-        motor.p2.spd = instance.position.y;
-    },
+    p2:new Motor(2)
 };
-var motor_onMove = function (instance, event, pointer) {
-    motor.p1.spd = instance.position.x;
-    motor.p2.spd = instance.position.y;
-    $('#display').text('X:' + instance.position.x + '  |  Y:' + instance.position.y);
-}
 var servo = new Object();
 var setServo = function () {
     if (setServo.pos < 0) { setServo.pos = 0;}
@@ -70,6 +62,41 @@ var connect = function (ip) {
     return socket;
 }
 
+var _pointerDown = function (evt) {
+    _pointerMove({
+        originalEvent: {
+            clientX: evt.originalEvent.clientX,
+            clientY: evt.originalEvent.clientY,
+            pressure: 1
+        }
+    });
+    $('#motor-slider').show();
+}
+var _pointerUp = function (evt) {
+    $('#motor-slider').hide();
+}
+var _pointerMove = function (evt) {
+    e = evt.originalEvent;
+    // Only move it if mouse/touch/pen is dragging
+    if (e.pressure > 0) {
+        var x = e.clientX;
+        var y = e.clientY;
+        var size_x = $('#motor-slider').outerWidth();
+        var size_y = $('#motor-slider').outerHeight(); // Keep it within the container
+        x = (x + size_x > c.x2) ? c.x2 - size_x : (x < c.x1) ? c.x1 : x;
+        y = (y + size_y > c.y2) ? c.y2 - size_y : (y < c.y1) ? c.y1 : y;
+        $('#motor-slider').css({ // Move it
+            'top': y,
+            'left': x
+        });
+        x = Math.round(c.sx * (x - c.x1 + size_x));
+        y = Math.round(c.sy * (y - c.y1 + size_y)); // Local container coords, mapped 0-255
+        motor.p1.spd = x;
+        motor.p2.spd = y;
+        $('#display').text(x + ':' + y); // Display localized position
+    }
+}
+
 $(function () {
 	// Determine robot IP and open socket
     //if (!window.location.host) { host = prompt('What is the robot IP?'); }
@@ -81,14 +108,27 @@ $(function () {
     }
 
 	// Create draggable object for servo slider and attach movement event handler
-    /*servo.drag = new Draggabilly($('#x-slider')[0], {
+    /*
+    servo.drag = new Draggabilly($('#x-slider')[0], {
         axis: 'x',
         containment: '#x-slider-c'
-    });*/
-    motor.drag = new Draggabilly($('#motor-slider')[0], {
-        containment: '#motor-container'
     });
-    //servo.on('dragMove', servo_onMove);
-    motor.drag.on('dragMove', motor_onMove);
-    $('')
+    servo.on('dragMove', servo_onMove);
+    */
+    // Store positional data about container and its size
+    var offset = $('#motor-container').offset();
+    c = new Object();
+    c.x1 = offset.left;
+    c.y1 = offset.top;
+    c.x2 = offset.left + $('#motor-container').outerWidth();
+    c.y2 = offset.top + $('#motor-container').outerHeight();
+    // For mapping local container coordinates to 0-255
+    c.sx = 255 / $('#motor-container').outerWidth();
+    c.sy = 255 / $('#motor-container').outerHeight();
+    // Bind pointer events
+    $('#motor-container').on('pointerdown', _pointerDown);
+    $(document).on('pointerup', _pointerUp);
+    $(document).on('pointermove', _pointerMove);
+
+    $('#motor-slider').hide();
 });

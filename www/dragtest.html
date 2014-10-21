@@ -40,17 +40,21 @@
 			}
         }
         $(document).ready(function () {
+            // Store positional data about container and its size
             var offset = $('#container').offset();
             c = new Object();
             c.x1 = offset.left;
             c.y1 = offset.top;
             c.x2 = offset.left + $('#container').outerWidth();
             c.y2 = offset.top + $('#container').outerHeight();
+            // For mapping local container coordinates to 0-255
             c.sx = 255 / $('#container').outerWidth();
             c.sy = 255 / $('#container').outerHeight();
+            // Bind pointer events
             $('#container').on('pointerdown', _pointerDown);
             $(document).on('pointerup', _pointerUp);
             $(document).on('pointermove', _pointerMove);
+
             $('#handle').hide();
 
 			// Add a draggabilly, just to show how to make one
