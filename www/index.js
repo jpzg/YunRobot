@@ -1,7 +1,7 @@
 var socket; // WebSocket object
 var host;
 var buffer = new Array(); // Buffer for functions to be called on message received
-var c; // Object to hold position data about motor drag container
+var c = new Object(); // Object to hold position data about motor drag container
 
 var get = function (msg, f, o) { // Execute any Yun method which returns a value
     socket.send(msg); // o is caller object. Defaults to document
@@ -42,11 +42,11 @@ var setServo = function () {
         setServo.prev = setServo.pos;
     }
 }
-
 var servo_onMove = function (instance, event, pointer) {
     $('#pos').text(instance.position.x * (160 / 255));
     setServo.pos = instance.position.x * (160 / 255);
 }
+
 var connect = function (ip) {
     $('#nav-title').text('Robot @ ' + ip);
     socket = new WebSocket('ws://' + ip + ':3146/ws');
@@ -101,12 +101,20 @@ $(function () {
 	// Determine robot IP and open socket
     //if (!window.location.host) { host = prompt('What is the robot IP?'); }
     //else { host = window.location.host; }
-    host = '192.168.1.254';
+    host = '192.168.240.1';
 	var socket = connect(host);
     socket.onopen = function (evt) {
         $('#conn-status').removeClass('alert-warning').addClass('alert-success').text('Connected');
     }
 
+    var offset = $('#motor-container').offset();
+    c.x1 = offset.left;
+    c.y1 = offset.top;
+    c.x2 = offset.left + $('#motor-container').outerWidth();
+    c.y2 = offset.top + $('#motor-container').outerHeight();
+    // For mapping local container coordinates to 0-255
+    c.sx = 255 / $('#motor-container').outerWidth();
+    c.sy = 255 / $('#motor-container').outerHeight();
 	// Create draggable object for servo slider and attach movement event handler
     /*
     servo.drag = new Draggabilly($('#x-slider')[0], {
@@ -116,15 +124,7 @@ $(function () {
     servo.on('dragMove', servo_onMove);
     */
     // Store positional data about container and its size
-    var offset = $('#motor-container').offset();
-    c = new Object();
-    c.x1 = offset.left;
-    c.y1 = offset.top;
-    c.x2 = offset.left + $('#motor-container').outerWidth();
-    c.y2 = offset.top + $('#motor-container').outerHeight();
-    // For mapping local container coordinates to 0-255
-    c.sx = 255 / $('#motor-container').outerWidth();
-    c.sy = 255 / $('#motor-container').outerHeight();
+    
     // Bind pointer events
     $('#motor-container').on('pointerdown', _pointerDown);
     $(document).on('pointerup', _pointerUp);
