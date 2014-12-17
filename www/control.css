@@ -1,0 +1,73 @@
+﻿body {
+	color:#4E4E4E;
+}
+
+.touch-box {
+    -webkit-box-shadow: inset 0 0 15px #AAA;
+    -moz-box-shadow: inset 0 0 15px #AAA;
+    box-shadow: inset 0 0 15px #AAA;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    touch-action:none;
+    border-radius: 10px;
+    background: #F5F5F5;
+    display: block;
+    /*margin: 20px;*/
+}
+
+.tb-horizontal {
+    width: 300px;
+    height: 40px;
+}
+
+.tb-vertical {
+    width: 40px;
+    height: 300px;
+}
+
+.tb-square {
+    width: 300px;
+    height: 300px;
+}
+
+.touch-slider {
+    position: absolute;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: thin solid #979797;
+    background: #E5E5E5;
+    display: block;
+}
+
+.ts-horizontal {
+    width: 15%;
+    height: 100%;
+}
+
+.ts-vertical {
+    width: 100%;
+    height: 15%;
+}
+
+.ts-square {
+    width: 15px;
+    height: 15px;
+}
+
+.touch-slider:hover {
+    border: thin solid #2369AB;
+    background: #59A4E9;
+}
+
+.touch-slider.is-dragging {
+    border: thin solid #0055C8;
+    background: #0077EE;
+}
+
+#butane:hover{
+	color:#FF7072;
+}
+#butane:active{
+	color:#FF0004;
+}

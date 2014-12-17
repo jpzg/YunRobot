@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Robot</title>
+    <link href="control.css" rel="stylesheet" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <script src="js/jquery-2.1.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="control.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="col-sm-3">
+            <div class="touch-box tb-square" id="container">
+                <div class="touch-slider ts-square" id="handle"></div>
+            </div>
+			<div id="display">hello</div>
+        </div>
+		<div class="col-sm-6"></div>
+        <div class="col-sm-3">
+            <button id="butane" onMouseDown="socket.send('butane_on()'" onMouseUp="socket.send('butane_off()'"><span class="glyphicon glyphicon-fire"></span></button>
+        </div>
+    </div>
+</body>
+</html>
