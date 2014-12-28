@@ -22,14 +22,17 @@ m1 = s.get_motor(1)
 m2 = s.get_motor(2)
 m1.dir, m2.dir = FORWARD, FORWARD
 m1.spd, m2.spd = 0,0
+yun.servo_config(9);
+yun.servo_config(10);
+yun.digital[10].write(60); # Start it at a different angle, so it can move opposite the other servo
 
 def butane_on():
-    yun.digital[9].analogWrite(100);
-    yun.digital[10].analogWrite(100);
+    yun.digital[9].write(60);
+    yun.digital[10].write(0);
 
 def butane_off():
-    yun.digital[9].analogWrite(255);
-    yun.digital[10].analogWrite(255);
+    yun.digital[9].write(0);
+    yun.digital[10].write(60);
 
 def retrieve(client,value):
     client.send(value)
