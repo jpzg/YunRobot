@@ -1,17 +1,19 @@
 ﻿body {
-	color:#4E4E4E;
+	background-color:#4E4E4E;
 }
 
 .touch-box {
-    -webkit-box-shadow: inset 0 0 15px #AAA;
-    -moz-box-shadow: inset 0 0 15px #AAA;
-    box-shadow: inset 0 0 15px #AAA;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    touch-action:none;
-    border-radius: 10px;
-    background: #F5F5F5;
-    display: block;
+	-webkit-box-shadow: inset 0 0 15px #AAA;
+	-moz-box-shadow: inset 0 0 15px #AAA;
+	box-shadow: inset 0 0 15px #AAA;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	touch-action: none;
+	border-radius: 10px;
+	background: #F5F5F5;
+	display: block;
+	width: 318px;
+	height: 328px;
     /*margin: 20px;*/
 }
 
@@ -31,7 +33,7 @@
 }
 
 .touch-slider {
-    position: absolute;
+    position: relative;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
@@ -65,9 +67,12 @@
     background: #0077EE;
 }
 
-#butane:hover{
+#butane {
+	
+}
+#butane:hover {
 	color:#FF7072;
 }
-#butane:active{
+#butane:active {
 	color:#FF0004;
 }

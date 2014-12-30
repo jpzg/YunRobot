@@ -85,6 +85,8 @@ var _pointerMove = function (evt) {
         var size_y = $('#motor-slider').outerHeight(); // Keep it within the container
         x = (x + size_x > c.x2) ? c.x2 - size_x : (x < c.x1) ? c.x1 : x;
         y = (y + size_y > c.y2) ? c.y2 - size_y : (y < c.y1) ? c.y1 : y;
+        x -= c.x1;
+        y -= c.y1;
         $('#motor-slider').css({ // Move it
             'top': y,
             'left': x

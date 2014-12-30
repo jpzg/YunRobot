@@ -30,7 +30,7 @@
 }
 
 .touch-slider {
-    position: absolute;
+    position: relative;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
@@ -64,7 +64,12 @@
     background: #0077EE;
 }
 
-
+#butane:hover{
+	color:#FF7072;
+}
+#butane:active{
+	color:#FF0004;
+}
 
 
 /*
