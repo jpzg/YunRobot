@@ -1,15 +1,22 @@
 ﻿var c;
 var h;
 var socket;
+var onTick = { // Holds all messages to be sent on a tick
+    spd: [],
+    dir: [],
+    serv1: null,
+    serv2: null,
+    misc: [],
+}
 
 var motor = function (port, speed) {
     if (speed < 0) { // Change direction based on speed positive/negative
-        socket.send('m.' + port + '.dir=2'); // May want to do something about always sending change direction signal
+        onTick.dir[port - 1] = 'm' + port + '.dir=2'; // May want to do something about always sending change direction signal
     }
     else {
-        socket.send('m.' + port + '.dir=1');
+        onTick.dir[port - 1] = 'm' + port + '.dir=1'
     }
-    socket.send('m.' + port + '.spd=' + Math.abs(speed));
+    onTick.spd[port - 1] = 'm' + port + '.spd=' + Math.abs(speed);
 }
 
 var _pointerDown = function (evt) {
@@ -53,6 +60,22 @@ var _pointerMove = function (evt) {
         $('#display').text(x2 + '\t' + y2 + '\t' + x + '\t' + y + '\t' + c.x2 + '\t' + c.y2); // Display localized position
     }
 }
+
+var _tick = function (evt) {
+    for (k in onTick) {
+        if (typeof (onTick[k]) == 'object') {
+            for (e in onTick[k]) {
+                socket.send(onTick[k][e]);
+            }
+            onTick[k] = [];
+            continue;
+        }
+        if (onTick[k]) {
+            socket.send(onTick[k]);
+            onTick[k] = null;
+        }
+    }
+}
 /*
 var _butane_pointerDown = function (evt) {
 
@@ -64,6 +87,7 @@ var _butane_pointerUp = function (evt) {
 */
 $(document).ready(function () {
     socket = new WebSocket('ws://192.168.240.1:3146/ws');
+    socket.onopen = function (evt) { socket.send('m1.dir,m2.dir=1,1'); }
     // Store positional data about container and its size
     var offset = $('#container').offset();
     c = {
@@ -89,4 +113,5 @@ $(document).ready(function () {
     //$('#butane').on('pointerup', _butane_pointerUp);
 
     $('#handle').hide();
+    var tick = setInterval(_tick, 100);
 });
