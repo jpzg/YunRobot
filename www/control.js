@@ -1,6 +1,7 @@
 ﻿var c;
 var h;
 var socket;
+var containerCtrl = false; // Tells if user started dragging from inside container or not
 var onTick = { // Holds all messages to be sent on a tick
     spd: [],
     dir: [],
@@ -20,6 +21,7 @@ var motor = function (port, speed) {
 }
 
 var _pointerDown = function (evt) {
+    containerCtrl = true;
     _pointerMove({
         originalEvent: {
             clientX: evt.originalEvent.clientX,
@@ -31,13 +33,14 @@ var _pointerDown = function (evt) {
 }
 var _pointerUp = function (evt) {
     $('#handle').hide();
+    containerCtrl = false;
     motor(1, 0);
     motor(2, 0);
 }
 var _pointerMove = function (evt) {
     e = evt.originalEvent;
     // Only move it if mouse/touch/pen is dragging
-    if (e.pressure > 0) {
+    if (e.pressure > 0 && containerCtrl) {
         var x = e.clientX;
         var y = e.clientY;
         // Keep it within the container
@@ -56,7 +59,7 @@ var _pointerMove = function (evt) {
         x2 = Math.round(x2 * c.sx);
         y2 = Math.round(y2 * c.sy); // Local container coords, mapped 0-255
         motor(1, x2);
-        motor(1, y2);
+        motor(2, y2);
         $('#display').text(x2 + '\t' + y2 + '\t' + x + '\t' + y + '\t' + c.x2 + '\t' + c.y2); // Display localized position
     }
 }
@@ -65,9 +68,11 @@ var _tick = function (evt) {
     for (k in onTick) {
         if (typeof (onTick[k]) == 'object') {
             for (e in onTick[k]) {
-                socket.send(onTick[k][e]);
+                if (onTick[k][e]) {
+                    socket.send(onTick[k][e]);
+                    onTick[k][e] = null;
+                }
             }
-            onTick[k] = [];
             continue;
         }
         if (onTick[k]) {
