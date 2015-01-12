@@ -14,3 +14,11 @@ The linux is a python program which accepts WebSocket connections and passes com
 The webpage is a page for control/information display which can be used to drive the robot. Currently, I'm optimizing it for touch.
 
 Since this is essentially just an arduino connected to something (running python) over serial, you could presumably replace the Yun with an uno and a Wifi Pineapple, or even a Raspberry Pi and control over Ethernet or something. Have fun.
+
+Startup process
+---------------
+1. Connect arduino and motor shield to power
+2. Connect to arduino's wifi (takes about 1min to start)
+3. Connect to AR9331 with SSH and start linino.py
+4. Open control.html
+5. Restart 32U4
